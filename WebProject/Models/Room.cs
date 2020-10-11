@@ -17,7 +17,7 @@ namespace HotelWebApp.Models
         }
 
         [Required]
-        [RegularExpression(@"^[G1-3]{1}$", ErrorMessage = "must be English letters, digits, spaces and underscore")]
+        [RegularExpression(@"^[G1-3]{1}$", ErrorMessage = "must be English letter G, or digit 1, 2, 3")]
         public string Level
         {
             get;

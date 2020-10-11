@@ -44,7 +44,7 @@ namespace HotelWebApp.Models
         */
 
         [Required]
-        [RegularExpression(@"^\d{4}$")]
+        [RegularExpression(@"^\d{4}$", ErrorMessage = "must be 4 digits")]
         public string Postcode
         {
             get;
