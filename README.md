@@ -3,25 +3,25 @@ This is made by Razor page, Showcasing authentication, search function based on 
 
 Tasks
 
-- [ ] 2 Customer Layout file custom links
+- [x] 2 Customer Layout file custom links
 
-- [ ] 3 Nav and Layout LINKS
-		- [x] not logged in links 
-			- [x] Home
-			- [x] Register
-			- [x] Login
-		- [ ] customers links
-			- [x] Home (/Index)
-			- [ ] My Details (/Customers/MyDetails)
-			- [ ] Book a Room
-			- [ ] Search Rooms
-			- [ ] My Bookings
-			- [x] Logout (default)
-		- [ ] admin links
-			- [x] Home
-			- [ ] Manage Bookings
-			- [ ] Statistics
-			- [x] Logout (default)
+- [x] 3 Nav and Layout LINKS
+	- [x] not logged in links 
+		- [x] Home
+		- [x] Register
+		- [x] Login
+	- [x] customers links
+		- [x] Home (/Index)
+		- [x] My Details (/Customers/MyDetails)
+		- [x] Book a Room
+		- [x] Search Rooms
+		- [x] My Bookings
+		- [x] Logout (default)
+	- [ ] admin links
+		- [x] Home
+		- [ ] Manage Bookings
+		- [ ] Statistics
+		- [x] Logout (default)
 
 - [ ] 4 Home Page
 	- [ ] Images
