@@ -3,9 +3,9 @@ This is made by Razor page, Showcasing authentication, search function based on 
 
 Tasks
 
-- [x] 2 Customer Layout file custom links
+- [x] 2 Two roles of administrators and customers
 
-- [x] 3 Nav and Layout LINKS
+- [x] 3 Dynamic Navigation and layout
 	- [x] not logged in links 
 		- [x] Home
 		- [x] Register
@@ -23,24 +23,27 @@ Tasks
 		- [ ] Statistics
 		- [x] Logout (default)
 
-- [ ] 4 Home Page
-	- [ ] Images
-	- [ ] Carosel Tags
+- [x] 4 Home Page
+	- [x] Images
+	- [x] Carosel Tags
 	- [x] Columns/Links
 
-- [ ] 5 Models
-	- [x] Models
-	- [ ] Double check models
-	- [ ] add data to Database
+- [x] 5 Models
+	- [x] Models (Room, Customer, Booking)
+	- [x] Add navigation property
+	- [x] Define Primary key and foreign key
+	- [x] Relationship(1 - m)
+	- [x] Add data to Database
+	- [x] Validation (Regular expression, data Type)
 
 - [ ] 6  Customer Pages 
-	- [ ] Authorise pages
-	- [ ] 6.1 My Details (Customers)
-		- [x] Edit Surname, Given Name, Postcode (new view model)
+	- [x] Authorise pages (customers role into 6.1,2,3,4)
+	- [x] 6.1 My Details (Customers/MyDetails)
+		- [x] Configure first registered or not (not means existed customer update details)
+		- [x] Input: Surname, Given Name, Postcode
+		- [x] Success notification (Simple, text below)
+		- [x] Create detail data into "/Customers/Index/"
 		- [X] Redirect from register to this page
-		- [x] Create or Update table
-		- [x] Success notification
-		- [ ] Check redirection works from oother pages
   	- [ ] 6.2 Search Rooms (Rooms)
 		- [ ] Build form - Number of Beds (select tag helper) , Check in Date, check out date, submit (tag helpers) 
 		- [ ] booking View Model
