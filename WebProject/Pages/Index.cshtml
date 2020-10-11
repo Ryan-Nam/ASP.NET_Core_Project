@@ -1,0 +1,108 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<style>
+    img {
+        width: 100%;
+        height: auto;
+    }
+</style>
+
+<!-- Every 3 seconds, Carousel page will be rotated -->
+<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="3000">
+
+    <!-- Indicators, 4 of carousels -->
+    <ul class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+        <li data-target="#myCarousel" data-slide-to="3"></li>
+    </ul>
+
+    <!-- The slideshow, this is about details of 4 carousels pages, for example, captions -->
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="~/images/specialroom1.jpg" alt="Outside room" />
+            <div class="carousel-caption">
+                <h3>
+                    Speical Room
+                </h3>
+            </div>
+
+        </div>
+
+        <div class="carousel-item">
+            <img src="~/images/dining1.jpg" alt="Dining" />
+            <div class="carousel-caption">
+                <h3>
+                    Dining
+                </h3>
+            </div>
+        </div>
+
+        <div class="carousel-item">
+            <img src="~/images/building1.jpg" alt="Building" />
+            <div class="carousel-caption">
+                <h3>
+                    Building and pool
+                </h3>
+            </div>
+        </div>
+
+        <div class="carousel-item">
+            <img src="~/images/room1.jpg" alt="Room" />
+            <div class="carousel-caption">
+                <h3>
+                    Room
+                </h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Left and right controls -->
+    <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </a>
+    <a class="carousel-control-next" href="#myCarousel" data-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </a>
+</div>
+<br />
+
+<div class="row">
+    <!-- The requirement of view port width, which is less than 768px, so I used col-md -->
+    <!-- Left side col, display welcome message and brief Introduction to the hotel -->
+    <div class="col-md-8">
+        <h3>Welcome to Three Sisters Hotel!</h3>
+        <p>
+            Have a sepecial time at Three Sisters Hotel!
+        </p>
+    </div>
+    <!-- Right side col, display a list of useful links-->
+    <div class="col-md-4">
+        <h2 class="text-center">Useful Links</h2>
+        <ul>
+            <li class="nav-item">
+                <a class="nav-link text-dark" href="https://www.bmcc.nsw.gov.au/">Blue Mountain City Council</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" href="https://www.weatherzone.com.au/nsw/central-tablelands/katoomba/">Katoomba Weather</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" href="https://transportnsw.info/plan/places-to-visit/blue-mountains/">Blue Mountain Transport</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" href="https://www.nationalparks.nsw.gov.au/visit-a-park/parks/blue-mountains-national-park/">Blue Mountain National Park</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" href="https://bluemountainstoursydney.com.au/guide-to-the-blue-mountains/">Guide</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" href="https://www.visitnsw.com/accommodation/accommodation-hotel-and-motel">Accomodation</a>
+            </li>
+        </ul>
+    </div>
+</div>

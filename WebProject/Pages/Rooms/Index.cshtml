@@ -1,0 +1,77 @@
+﻿@page
+@model HotelWebApp.Pages.Rooms.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+
+<div class="row">
+    <div class="col-md-6">
+
+        @* Generating the web form containing a search box. *@
+        <form asp-action="PeopleDiff">
+            <div class="form-group">
+                <label for="SearchString" class="control-label">number of beds: &nbsp; &nbsp; </label>
+                @* The name "SearchString" must match the property name in IndexModel class. *@
+                <input type="text" name="SearchString" class="form-control" />
+            </div>
+            <div>
+                &nbsp; &nbsp;  @* Introducing two spaces *@
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Search" class="btn btn-primary" />
+            </div>
+        </form>
+        <br />
+    </div>
+</div>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Room[0].Level)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Room[0].BedCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Room[0].Price)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Room)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Level)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BedCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td></td>
+                <!-- Since we have given data set for the room, in order to prevent potential numerical error, i will remove CRUD buttons
+                <td>
+                    <a asp-page="./Edit" asp-route-id="(at)item.ID">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="(at)item.ID">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="(at)item.ID">Delete</a>
+                </td>
+                -->
+            </tr>
+        }
+    </tbody>
+</table>
