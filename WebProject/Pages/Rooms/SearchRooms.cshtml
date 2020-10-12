@@ -1,0 +1,99 @@
+﻿@page
+@model HotelWebApp.Pages.Rooms.SearchRoomsModel
+@{
+    ViewData["Title"] = "SearchRooms";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<h1>SearchRooms</h1>
+<h4>The differences between Moviegoers in choosing movies</h4>
+<p>Specifically, this page allows you to find out the movies watched by Moviegoer A but not Moviegoer B.</p>
+
+
+<div class="row">
+    <div class="col-md-6">
+        @* by default, a method="post" form will be rendered. *@
+        <form asp-action="PeopleDiff">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <!--d-->
+                <label asp-for="RoomSearch.BedCount" class="control-label"></label>
+                <select asp-for="RoomSearch.BedCount" class="form-control" asp-items="ViewBag.BedCount">
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="RoomSearch.CheckIn" class="control-label"></label>
+                <input asp-for="RoomSearch.CheckIn" class="form-control" />
+                <span asp-validation-for="RoomSearch.CheckIn" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="RoomSearch.CheckOut" class="control-label"></label>
+                <input asp-for="RoomSearch.CheckOut" class="form-control" />
+                <span asp-validation-for="RoomSearch.CheckOut" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Compare" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@* Check this page is requested by 'get' or 'post' method.
+    If 'post', then display the comparison results. *@
+@if (Model.DiffRooms != null)
+{
+    <div>
+        <hr />
+        @if (Model.DiffRooms.Count == 0)
+        {
+            <h4>
+                There is no movie watched by MovieGoer A, but not by MovieGoerB.
+            </h4>
+        }
+        else
+        {
+            <table class="table">
+                <!-- .table is a Bootstrap class giving table styles -->
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DiffRooms[0].ID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DiffRooms[0].Level)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DiffRooms[0].BedCount)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DiffRooms[0].Price)
+                    </th>
+                </tr>
+
+                @foreach (var item in Model.DiffRooms)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Level)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BedCount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+    </div>
+}
+
+@* Inlcude JavaScript for client-side vaildations.*@
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

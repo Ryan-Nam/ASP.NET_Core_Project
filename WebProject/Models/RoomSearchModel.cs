@@ -11,8 +11,11 @@ namespace HotelWebApp.Models
     {
         public int RoomID { get; set; }
 
+
         [Display(Name = "Number of beds")]
-        [RegularExpression(@"^[123]{1}$", ErrorMessage = " Rooms can only consist of '1', '2' or '3' beds ")]
+        [Required]
+        [Range(1, 3, ErrorMessage = "Rooms can only consist of '1', '2' or '3' beds ")]
+        //[RegularExpression(@"^[123]{1}$", ErrorMessage = " Rooms can only consist of '1', '2' or '3' beds ")]
         public int BedCount { get; set; }
 
         [DataType(DataType.Date)]
