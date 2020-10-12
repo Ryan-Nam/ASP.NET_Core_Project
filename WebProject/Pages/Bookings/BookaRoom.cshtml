@@ -1,9 +1,8 @@
 ﻿@page
-@model HotelWebApp.Pages.Bookings.AnotherCreateModel
+@model HotelWebApp.Pages.Bookings.BookaRoomModel
 @{
-    ViewData["Title"] = "AnotherCreate";
+    ViewData["Title"] = "BookaRoom";
     Layout = "~/Pages/Shared/_Layout.cshtml";
-
 }
 
 <h1>Create</h1>
@@ -38,54 +37,20 @@
     </div>
 </div>
 
-
-@if (Model.asdasd == null)
+@if (ViewData["SuccessDB"] != null)
 {
-    <h3 class="text-danger"> Room is not available for the requested booking period. </h3>
+   
+    <div>
+        <hr />
+        <h5>
+            @ViewData["SuccessDB"].ToString()
+        </h5>
+    </div>
 }
-else
-{
-    <h2>Confirmed Booking details</h2>
-    <table class="table">
-        <!-- .table is a Bootstrap class giving table styles -->
-        <tr>
-            <th>
-                Room ID
-            </th>
-            <th>
-                Level
-            </th>
-            <th>
-                Check in date
-            </th>
-            <th>
-                Check out date
-            </th>
-            <th>
-                Total Cost
-            </th>
-        </tr>
 
-        <tr>
-            <td>
-                @Model.OrderInput.RoomID
-            </td>
 
-            <td>
-                @Model.OrderInput.Level
-            </td>
-            <td>
-                @Model.OrderInput.CheckIn.ToShortDateString()
-            </td>
-            <td>
-                @Model.OrderInput.CheckOut.ToShortDateString()
-            </td>
-            <td>
-                @Model.OrderInput.TotalCost
-            </td>
-        </tr>
-    </table>
-}
+
+
 
 
 

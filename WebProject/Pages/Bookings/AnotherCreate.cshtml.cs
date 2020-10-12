@@ -10,6 +10,7 @@ using HotelWebApp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.Sqlite;
+using System.Security.Claims;
 
 namespace HotelWebApp.Pages.Bookings
 {
