@@ -5,8 +5,6 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
-
 <h4>Booking</h4>
 <hr />
 <div class="row">
@@ -14,57 +12,86 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="OrderInput.RoomID" class="control-label"></label>
-                <select asp-for="OrderInput.RoomID" class="form-control" asp-items="ViewBag.RoomID"></select>
+                <label asp-for="RoomBooking.RoomID" class="control-label"></label>
+                <select asp-for="RoomBooking.RoomID" class="form-control" asp-items="ViewBag.RoomID"></select>
             </div>
-
             <div class="form-group">
-                <label asp-for="OrderInput.CheckIn" class="control-label"></label>
-                <input asp-for="OrderInput.CheckIn" class="form-control" />
-                <span asp-validation-for="OrderInput.CheckIn" class="text-danger"></span>
+                <label asp-for="RoomBooking.CheckIn" class="control-label"></label>
+                <input asp-for="RoomBooking.CheckIn" class="form-control" />
+                <span asp-validation-for="RoomBooking.CheckIn" class="text-danger"></span>
             </div>
-
             <div class="form-group">
-                <label asp-for="OrderInput.CheckOut" class="control-label"></label>
-                <input asp-for="OrderInput.CheckOut" class="form-control" />
-                <span asp-validation-for="OrderInput.CheckOut" class="text-danger"></span>
+                <label asp-for="RoomBooking.CheckOut" class="control-label"></label>
+                <input asp-for="RoomBooking.CheckOut" class="form-control" />
+                <span asp-validation-for="RoomBooking.CheckOut" class="text-danger"></span>
             </div>
-
             <div class="form-group">
-                <input type="submit" value="Book" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+
+
 @if (ViewData["SuccessDB"] != null)
 {
-   
     <div>
+        <h3>You successfully created your booking</h3>
         <hr />
         <h5>
-            @ViewData["SuccessDB"].ToString()
+            <!--@@ViewData["SuccessDB"].ToString() -->
+            Room ID: <strong>@Model.RoomBooking.RoomID</strong><br>
+            Room Level: <strong>@Model.RoomBooking.Level</strong><br>
+            Check In: <strong>@Model.RoomBooking.CheckIn</strong>
+            Check Out: <strong>@Model.RoomBooking.CheckOut</strong>
         </h5>
     </div>
 }
 
+<!-- What i want to change is.... this is sooo inefficient way... i need to dynamic way to declare error message-->
+@if (ViewData["Fail"] != null)
+{
+    <div>
+        <hr />
+        <h3>
+            Alert
+        </h3>
+        <hr />
+        <h5> @ViewData["Fail"].ToString() </h5>
+    </div>
+}
 
 
+@if (ViewData["CheckInerr"] != null)
+{
+    <div>
+        <hr />
+        <h3>
+            Alert
+        </h3>
+        <hr />
+        <h5> @ViewData["CheckInerr"].ToString()  </h5>
+    </div>
+}
 
+@if (ViewData["CheckOuterr"] != null)
+{
+    <div>
+        <hr />
+        <h3>
+            Alert
+        </h3>
+        <hr />
+        <h5> @ViewData["CheckOuterr"].ToString() </h5>
+    </div>
+}
 
-
-
-<div>
-    @if (User.IsInRole("Administrators"))
-    {
-        <a asp-action="BookingManagement">Back to List</a>
-    }
-    else
-    {
-        <a asp-action="Index">Back to List</a>
-    }
-
-</div>
+<!-- Is there any way to use if, else if????-->
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
