@@ -40,17 +40,49 @@
 
 @if (ViewData["SuccessDB"] != null)
 {
-    <div>
-        <h3>You successfully created your booking</h3>
-        <hr />
-        <h5>
-            <!--@@ViewData["SuccessDB"].ToString() -->
-            Room ID: <strong>@Model.RoomBooking.RoomID</strong><br>
-            Room Level: <strong>@Model.RoomBooking.Level</strong><br>
-            Check In: <strong>@Model.RoomBooking.CheckIn</strong>
-            Check Out: <strong>@Model.RoomBooking.CheckOut</strong>
-        </h5>
-    </div>
+<div>
+    <h3>You successfully created your booking</h3>
+    <hr />
+    <table class="table">
+        <!-- .table is a Bootstrap class giving table styles -->
+        <tr>
+            <th>
+                Room ID
+            </th>
+            <th>
+                Level
+            </th>
+            <th>
+                Check in date
+            </th>
+            <th>
+                Check out date
+            </th>
+            <th>
+                Total Cost
+            </th>
+        </tr>
+
+        <tr>
+            <td>
+                @Model.RoomBooking.RoomID
+            </td>
+
+            <td>
+                @Model.RoomBooking.Level
+            </td>
+            <td>
+                @Model.RoomBooking.CheckIn.ToShortDateString()
+            </td>
+            <td>
+                @Model.RoomBooking.CheckOut.ToShortDateString()
+            </td>
+            <td>
+                @Model.RoomBooking.TotalCost
+            </td>
+        </tr>
+    </table>
+</div>
 }
 
 <!-- What i want to change is.... this is sooo inefficient way... i need to dynamic way to declare error message-->

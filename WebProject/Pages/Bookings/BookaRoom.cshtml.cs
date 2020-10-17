@@ -71,11 +71,17 @@ namespace HotelWebApp.Pages.Bookings
                 CustomerEmail = _email,
                 CheckIn = RoomBooking.CheckIn,
                 CheckOut = RoomBooking.CheckOut
+
+               
             };
 
-            // Calculate the total price of room booking
-            int lengthOfStay = (int)(Booking.CheckOut - Booking.CheckIn).TotalDays;
-            Booking.Cost = lengthOfStay * Booking.TheRoom.Price;
+            var lengthOfStay = (int)(Booking.CheckOut - Booking.CheckIn).TotalDays;
+            RoomBooking.TotalCost = lengthOfStay * Booking.TheRoom.Price;
+            Booking.Cost = RoomBooking.TotalCost;
+
+
+
+
 
             //Level .... am i right????? or should i use this into Booking??{} 
             var theLevel = await _context.Room.FirstOrDefaultAsync(m => m.ID == RoomBooking.RoomID);
