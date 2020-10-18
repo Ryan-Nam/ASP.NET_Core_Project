@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using HotelWebApp.Data;
 using HotelWebApp.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HotelWebApp.Pages.Customers
 {
+    [Authorize(Roles = "Administrators")]
     public class CreateModel : PageModel
     {
         private readonly HotelWebApp.Data.ApplicationDbContext _context;

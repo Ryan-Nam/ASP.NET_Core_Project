@@ -8,9 +8,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HotelWebApp.Data;
 using HotelWebApp.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HotelWebApp.Pages.Customers
 {
+    [Authorize(Roles = "Administrators")]
     public class EditModel : PageModel
     {
         private readonly HotelWebApp.Data.ApplicationDbContext _context;

@@ -15,7 +15,7 @@ using Microsoft.Data.Sqlite;
 
 namespace HotelWebApp.Pages.Bookings
 {
-    [Authorize(Roles = "Customers")]
+    //[Authorize(Roles = "Customers")]
     public class BookaRoomModel : PageModel
     {
         private readonly HotelWebApp.Data.ApplicationDbContext _context;

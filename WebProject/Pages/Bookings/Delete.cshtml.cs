@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace HotelWebApp.Pages.Bookings
 {
-    [Authorize(Roles = "Customers")]
+    [Authorize(Roles = "Administrators")]
     public class DeleteModel : PageModel
     {
         private readonly HotelWebApp.Data.ApplicationDbContext _context;
@@ -57,7 +57,7 @@ namespace HotelWebApp.Pages.Bookings
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./BookingManagement");
         }
     }
 }

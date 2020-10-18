@@ -14,7 +14,7 @@ using System.Security.Claims;
 
 namespace HotelWebApp.Pages.Bookings
 {
-    [Authorize(Roles = "Customers")]
+    //[Authorize(Roles = "Customers")]
 
     public class IndexModel : PageModel
     {

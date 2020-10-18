@@ -38,10 +38,11 @@ namespace HotelWebApp.Models
             set;
         }
 
-        /*
+
+        
         [NotMapped] // not to map this property to database, but exist in application
         public string FullName => $"{GivenName} {Surname}";
-        */
+        
 
         [Required]
         [RegularExpression(@"^\d{4}$", ErrorMessage = "must be 4 digits")]

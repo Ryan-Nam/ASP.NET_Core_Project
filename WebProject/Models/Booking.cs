@@ -31,8 +31,9 @@ namespace HotelWebApp.Models
             set;
         }
 
+        //I changed from ture to false because in Edit, I could not retrieve the Check in and out data properly.
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
         public DateTime CheckIn
         {
             get;
@@ -40,7 +41,7 @@ namespace HotelWebApp.Models
         }
 
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
         public DateTime CheckOut
         {
             get;

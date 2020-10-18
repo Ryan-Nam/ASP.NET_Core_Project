@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace HotelWebApp.Pages.Bookings
 {
-    [Authorize(Roles = "Customers")]
+    [Authorize(Roles = "Administrators")]
     public class DetailsModel : PageModel
     {
         private readonly HotelWebApp.Data.ApplicationDbContext _context;
