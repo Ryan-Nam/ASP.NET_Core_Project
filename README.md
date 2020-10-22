@@ -64,18 +64,19 @@ Tasks
 		- [x] Decorate "Edit/Delete" Button boxes (Implement Bootstrap)
 		- [x] set delete detils (ID, Level, BedCount, Surname, GivenName, Check In, Out, Total Cost) 
 		- [x] "create a new Booking" Link (Create/Bookings)
-			- [ ] room id
-			- [ ] Customer drop down with Full name
-			- [ ] check in
-			- [ ] check out
-			- [ ] cost (manual)
-			- [ ] submit
-			- [ ] CHeck if aviable Raw SQL
-			- [ ] succes notification
-			- [ ] redirect (return page maybe ?)
-		- [ ] delete page
-			- [ ] details
-			- [ ] Delete confirmation
-	- [ ] 7.2 Statistics
-		- [ ] Table How many customers are located in each postcode. 'Postcode' and 'Number of Customers
-		- [ ] Table How many bookings have been made for each room. 'Room ID' and 'Number of Bookings'
+			- [x] room id
+			- [x] Customer drop down with Full name
+			- [x] check in
+			- [x] check out
+			- [x] cost (manual)
+			- [x] submit
+			- [x] CHeck if aviable Raw SQL
+			- [x] succes notification
+			- [x] redirect (return to /BookingManagement/Bookings)
+		- [x] delete page
+			- [x] details
+			- [x] Delete confirmation
+	- [x] 7.2 Statistics (/HotelStatistics/Bookings)
+		- [x] View model class (Statistics.cs)
+		- [x] Table How many customers are located in each postcode. 'Postcode' and 'Number of Customers
+		- [x] Table How many bookings have been made for each room. 'Room ID' and 'Number of Bookings'
