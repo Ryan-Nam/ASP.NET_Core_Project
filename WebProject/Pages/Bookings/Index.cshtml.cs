@@ -14,7 +14,7 @@ using System.Security.Claims;
 
 namespace HotelWebApp.Pages.Bookings
 {
-    //[Authorize(Roles = "Customers")]
+    [Authorize(Roles = "Customers")]
 
     public class IndexModel : PageModel
     {
@@ -25,7 +25,6 @@ namespace HotelWebApp.Pages.Bookings
             _context = context;
         }
 
-        
         public IList<Booking> Booking { get;set; }
         /*
         Original one
@@ -43,7 +42,6 @@ namespace HotelWebApp.Pages.Bookings
 
         public async Task<IActionResult> OnGetAsync(string sortOrder)
         {
-
             if (String.IsNullOrEmpty(sortOrder))
             {
                 // When the Index page is loaded for the first time, the sortOrder is empty.
@@ -52,7 +50,6 @@ namespace HotelWebApp.Pages.Bookings
             }
 
             var bookings = (IQueryable<Booking>)_context.Booking;
-
 
             switch (sortOrder)
             {
@@ -68,13 +65,10 @@ namespace HotelWebApp.Pages.Bookings
                 case "price_desc":
                     bookings = bookings.OrderByDescending(p => (double)p.Cost);
                     break;
-               
             }
-
          
             ViewData["NextCheckInOrder"] = sortOrder != "check_in_asc" ? "check_in_asc" : "check_in_desc";
             ViewData["NextCostOrder"] = sortOrder != "price_asc" ? "price_asc" : "price_desc";
-
 
             string _email = User.FindFirst(ClaimTypes.Name).Value;
             Booking order = await _context.Booking.FirstOrDefaultAsync(m => m.CustomerEmail == _email);
@@ -83,7 +77,6 @@ namespace HotelWebApp.Pages.Bookings
             Booking = await bookings.AsNoTracking()
                 .Include(p => p.TheCustomer)
                 .Include(p => p.TheRoom).Where(p => p.CustomerEmail == _email).ToListAsync();
-
             return Page();
         }
     }

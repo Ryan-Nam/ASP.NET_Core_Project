@@ -23,19 +23,17 @@
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
 
+                        <!-- For all User firsly,-->
                         @if (SignInManager.IsSignedIn(User))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
                             </li>
-
+                            <!-- If user is customer,-->
                             @if (User.IsInRole("Customers"))
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-page="/Customers/MyDetails">My Details</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-page="/Bookings/SearchRooms">Search Rooms</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-page="/Rooms/SearchRooms">Search Rooms</a>
@@ -47,6 +45,7 @@
                                     <a class="nav-link text-dark" asp-area="" asp-page="/Bookings/Index">My Bookings</a>
                                 </li>
                             }
+                            <!-- If user is admin,-->
                             @if (User.IsInRole("Administrators"))
                             {
                                 <li class="nav-item">
@@ -56,7 +55,6 @@
                                     <a class="nav-link text-dark" asp-area="" asp-page="/Bookings/HotelStatistics">Statistics</a>
                                 </li>
                             }
-
                         }
                         else
                         {

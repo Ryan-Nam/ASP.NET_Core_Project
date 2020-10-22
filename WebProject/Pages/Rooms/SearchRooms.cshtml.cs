@@ -40,20 +40,18 @@ namespace HotelWebApp.Pages.Rooms
             //ViewData["MovieGoerList"] = new SelectList(_context.Customer, "Email", "FullName");
             //ViewData["BedCountList"] = new SelectList(_context.Room, "BedCount", "BedCount");
 
-
-            ViewData["BedCount"] = new SelectList(new[]
-                       {
-                            new { BedCount = "1", Name = "1 bed" },
-                            new { BedCount = "2", Name = "2 beds" },
-                            new { BedCount = "3", Name = "3 beds" },
-                        },
-                       "BedCount", "Name", 1);
-
-
+            
+            ViewData["BedCountList"] = new SelectList(new[] 
+            { 
+                new { BedCount = "1", Name = "1 bed" }, 
+                new { BedCount = "2", Name = "2 beds" }, 
+                new { BedCount = "3", Name = "3 beds" },
+                        
+            }, "BedCount", "Name", 1);
+            
+            
             return Page();
         }
-
-
 
         /*
        public void OnGet()
@@ -68,44 +66,36 @@ namespace HotelWebApp.Pages.Rooms
 
         public async Task<IActionResult> OnPostAsync()
         {
-
-            int selected = 1;
-            if (RoomSearch != null)
-            {
-                selected = RoomSearch.BedCount;
-            }
-
-            ViewData["BedCount"] = new SelectList(new[]
+            ViewData["BedCountList"] = new SelectList(new[]
             {
                             new { BedCount = "1", Name = "1 bed" },
                             new { BedCount = "2", Name = "2 beds" },
                             new { BedCount = "3", Name = "3 beds" },
                         },
-            "BedCount", "Name", selected);
-
-
-
+            "BedCount", "Name");
+            
+            // Validation of user input.
             if (!ModelState.IsValid)
             {
                 return Page();
             }
+            //Firstly, Flag today's data, because user can't select check in Data the data before today.
             else if (RoomSearch.CheckIn < DateTime.Today)
             {
                 ModelState.AddModelError("RoomSearch.CheckIn", "Check in Date Must be in the future");
                 return Page();
             }
+            // Secondly, User can't select check out date, previous than check in date.
             else if (RoomSearch.CheckIn > RoomSearch.CheckOut)
             {
                 ModelState.AddModelError("RoomSearch.CheckOut", "Check Out Date Must after Check In Date");
                 return Page();
             }
 
-
-
-            // prepare the parameters to be inserted into the query
-            var bedCount = new SqliteParameter("bedCount", RoomSearch.BedCount);
-            var checkIn = new SqliteParameter("checkIn", RoomSearch.CheckIn);
-            var checkOut = new SqliteParameter("checkOut", RoomSearch.CheckOut);
+            // parameters will be be inserted into the query
+            var totalBeds = new SqliteParameter("totalBeds", RoomSearch.BedCount);
+            var cInDate = new SqliteParameter("cInDate", RoomSearch.CheckIn);
+            var cOutDate = new SqliteParameter("cOutDate", RoomSearch.CheckOut);
 
             // Construct the query to get the movies watched by Moviegoer A but not Moviegoer B
             // Use placeholders as the parameters
@@ -118,24 +108,23 @@ namespace HotelWebApp.Pages.Rooms
                    + "or ([Booking].CheckIn >= @checkIn and[Booking].CheckOut <= @checkOut)"
                       + "or ([Booking].CheckIn <= @checkOut and [Booking].CheckOut >= @checkOut))", totalBeds, cInDate, cOutDate).Select(ro => new Room { ID = ro.ID, Level = ro.Level, BedCount = ro.BedCount, Price = ro.Price });
             */
-            String query = "SELECT [Room].* FROM Room " +
-                              "WHERE [Room].BedCount = @bedCount ";
-
-            String subQuery = "(SELECT [Room].ID " +
+           
+            
+            var searchQuery = _context.Room.FromSqlRaw("SELECT [Room].* FROM Room " +
+                              "WHERE [Room].BedCount = @totalBeds " +
+                              " AND [Room].ID NOT IN " +
+                              "(SELECT [Room].ID " +
                               "FROM [Room] " +
                               "INNER JOIN [Booking] " +
                               "ON [Room].ID = [Booking].RoomId " +
-                              "WHERE @checkIn < Booking.Checkout " +
-                              "AND Booking.CheckIn < @checkOut ) ";
-
-            String notQuery = query + " AND [Room].ID NOT IN " + subQuery;
-
-
-            var searchQuery = _context.Room.FromSqlRaw(notQuery, bedCount, checkIn, checkOut);
+                              "WHERE @cInDate < Booking.Checkout " +
+                              "AND Booking.CheckIn < @cOutDate ) ", totalBeds, cInDate, cOutDate);
+            
 
 
+            // Run the query and save the results in DiffRooms for passing to content file
             DiffRooms = await searchQuery.ToListAsync();
-
+            // invoke the content file
             return Page();
 
         }

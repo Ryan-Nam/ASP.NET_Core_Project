@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 namespace HotelWebApp.Pages.Bookings
 {
     [Authorize(Roles = "Administrators")]
-    // Fristly, I made a CountStatistic.cs class model
+    // Fristly, Create Statistic.cs view class model
     // Secondly, Add the property _context && the class constructor below
     // Add using --.Models; && IList to pass data to Content file
     public class HotelStatisticsModel : PageModel
@@ -27,31 +27,23 @@ namespace HotelWebApp.Pages.Bookings
         // IList<ModelClass> name
         // For passing the results to the Content file
         public IList<Statistics> PostcodesStats;
+
         public IList<Statistics> RoomStats;
 
         // GET: Booking/HotelStatistics
         // OnGET -> OnGetAsync
         public async Task<PageResult> OnGetAsync()
         {
-            // divide the Pizzas into groups by Pizza Count
-            var bookingGroup = _context.Booking.GroupBy(m => m.RoomID);
+            // How many customers are located in each postcode
+            var CustomersByPostcode = _context.Customer.GroupBy(c => c.Postcode);
+            PostcodesStats = await CustomersByPostcode.Select(c => new Statistics {
+                Postcode = c.Key, CustomerCount = c.Count()}).ToListAsync();
 
-            // for each group, get its count value and the number of pizzas in this group
-            RoomStats = await bookingGroup.Select(r => new Statistics
-            {
-                Room = r.Key,
-                BookingCount = r.Count()
-            }).ToListAsync();
-
-
-            var CustomerGroup = _context.Customer.GroupBy(c => c.Postcode);
-
-            PostcodesStats = await CustomerGroup.Select(c => new Statistics
-            {
-                Postcode = c.Key,
-                CustomerCount = c.Count()
-            }).ToListAsync();
-
+            // How many bookings have been made for each room
+            var bookingByRoomId = _context.Booking.GroupBy(m => m.RoomID);
+            // for each group, get its count value and the number of room in this group
+            RoomStats = await bookingByRoomId.Select(r => new Statistics {
+                Room = r.Key, BookingCount = r.Count()}).ToListAsync();
 
             return Page();
 

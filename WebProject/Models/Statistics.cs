@@ -17,13 +17,13 @@ namespace HotelWebApp.Models
             get;
             set;
         }
+
         [Display(Name = "Number of Bookings")]
         public int BookingCount
         {
             get;
             set;
         }
-
 
         [Display(Name = "Postcode")]
         public String Postcode

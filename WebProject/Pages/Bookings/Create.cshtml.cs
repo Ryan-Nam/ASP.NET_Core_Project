@@ -41,48 +41,45 @@ namespace HotelWebApp.Pages.Bookings
             {
                 return Page();
             }
-
-            var roomID = new SqliteParameter("roomID", Booking.RoomID);
-            var checkIn = new SqliteParameter("checkIn", Booking.CheckIn);
-            var checkOut = new SqliteParameter("checkOut", Booking.CheckOut);
-
-
-
-            String query = "SELECT [Room].* FROM Room " +
-                            "WHERE [Room].ID = @roomID ";
-
-            String subQuery = "(SELECT [Room].ID " +
-                              "FROM [Room] " +
-                              "INNER JOIN [Booking] " +
-                              "ON [Room].ID = [Booking].RoomId " +
-                              "WHERE @checkIn < Booking.Checkout " +
-                              "AND Booking.CheckIn < @checkOut ) ";
-
-
-
-            String notQuery = query + " AND [Room].ID NOT IN " + subQuery;
-
-
-            var searchQuery = _context.Room.FromSqlRaw(notQuery, roomID, checkIn, checkOut);
-
-            var thing = await searchQuery.ToListAsync();
-
-            //TODO FIX BULLSHIT OUTPUT
-            if (thing.Count == 1)
+            else if (Booking.CheckIn < DateTime.Today)
             {
-
-                _context.Booking.Add(Booking);
-                await _context.SaveChangesAsync();
-                ViewData["SuccessDB"] = $"Booked, {Booking.RoomID} on level {Booking.TheRoom.Level}" +
-                    $"from {Booking.CheckIn:d} to {Booking.CheckOut:d} for {Booking.Cost:C2} ";
+                ViewData["CheckInerr"] = "Check in Date Must be in the future";
+                return Page();
             }
-            else
+            else if (Booking.CheckIn > Booking.CheckOut)
             {
-                ViewData["SuccessDB"] = "Booking not available";
+                ViewData["CheckOuterr"] = "Check Out Date Must be in the future";
                 return Page();
             }
 
+            var roomID = new SqliteParameter("roomID", Booking.RoomID);
+            var cInDate = new SqliteParameter("cInDate", Booking.CheckIn);
+            var cOutDate = new SqliteParameter("cOutDate", Booking.CheckOut);
 
+            var Query = _context.Room.FromSqlRaw("SELECT [Room].* FROM Room " +
+                            "WHERE [Room].ID = @roomID " +
+                            " AND [Room].ID NOT IN " +
+                            "(SELECT [Room].ID " +
+                              "FROM [Room] " +
+                              "INNER JOIN [Booking] " +
+                              "ON [Room].ID = [Booking].RoomId " +
+                              "WHERE @cInDate < Booking.Checkout " +
+                              "AND Booking.CheckIn < @cOutDate ) ", roomID, cInDate, cOutDate);
+
+
+            var succesQuerys = await Query.ToListAsync();
+
+            if (succesQuerys.Count == 1)
+            {
+                _context.Booking.Add(Booking);
+                await _context.SaveChangesAsync();
+                ViewData["SuccessDB"] = "success";
+            }
+            else
+            {
+                ViewData["Fail"] = "During your period, Booking not available, This room is this period already taken";
+                return Page();
+            }
             return RedirectToPage("./BookingManagement");
         }
     }

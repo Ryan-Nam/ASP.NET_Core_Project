@@ -45,17 +45,47 @@
 </div>
 
 
-@if (ViewData["SuccessDB"] != null)
+
+@if (ViewData["Fail"] != null)
 {
-<div>
-    <hr />
-    <h5>
-        @ViewData["SuccessDB"].ToString()
-    </h5>
-</div>}
+    <div>
+        <hr />
+        <h3>
+            Alert
+        </h3>
+        <hr />
+        <h5> @ViewData["Fail"].ToString() </h5>
+    </div>
+}
+
+
+@if (ViewData["CheckInerr"] != null)
+{
+    <div>
+        <hr />
+        <h3>
+            Alert
+        </h3>
+        <hr />
+        <h5> @ViewData["CheckInerr"].ToString()  </h5>
+    </div>
+}
+
+@if (ViewData["CheckOuterr"] != null)
+{
+    <div>
+        <hr />
+        <h3>
+            Alert
+        </h3>
+        <hr />
+        <h5> @ViewData["CheckOuterr"].ToString() </h5>
+    </div>
+}
+
 
 <div>
-    <a asp-page="Index">Back to List</a>
+    <a asp-page="BookingManagement">Back to List</a>
 </div>
 
 @section Scripts {

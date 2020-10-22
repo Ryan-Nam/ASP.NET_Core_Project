@@ -31,6 +31,7 @@ namespace HotelWebApp.Models
             set;
         }
 
+        //Only data part is needed
         //I changed from ture to false because in Edit, I could not retrieve the Check in and out data properly.
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]

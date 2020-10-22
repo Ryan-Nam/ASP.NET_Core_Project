@@ -21,14 +21,15 @@
 
         @foreach (var item in Model.PostcodesStats)
         {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.Postcode)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.CustomerCount)
-    </td>
-</tr>}
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Postcode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerCount)
+                </td>
+            </tr>
+        }
     </table>
 </div>
 
@@ -48,14 +49,15 @@
 
         @foreach (var item in Model.RoomStats)
         {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.Room)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.BookingCount)
-    </td>
-</tr>}
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Room)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookingCount)
+                </td>
+            </tr>
+        }
     </table>
 </div>
 

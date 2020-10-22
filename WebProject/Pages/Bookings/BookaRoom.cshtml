@@ -12,18 +12,18 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="RoomBooking.RoomID" class="control-label"></label>
-                <select asp-for="RoomBooking.RoomID" class="form-control" asp-items="ViewBag.RoomID"></select>
+                <label asp-for="BookingRoom.RoomID" class="control-label"></label>
+                <select asp-for="BookingRoom.RoomID" class="form-control" asp-items="ViewBag.RoomID"></select>
             </div>
             <div class="form-group">
-                <label asp-for="RoomBooking.CheckIn" class="control-label"></label>
-                <input asp-for="RoomBooking.CheckIn" class="form-control" />
-                <span asp-validation-for="RoomBooking.CheckIn" class="text-danger"></span>
+                <label asp-for="BookingRoom.CheckIn" class="control-label"></label>
+                <input asp-for="BookingRoom.CheckIn" class="form-control" />
+                <span asp-validation-for="BookingRoom.CheckIn" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="RoomBooking.CheckOut" class="control-label"></label>
-                <input asp-for="RoomBooking.CheckOut" class="form-control" />
-                <span asp-validation-for="RoomBooking.CheckOut" class="text-danger"></span>
+                <label asp-for="BookingRoom.CheckOut" class="control-label"></label>
+                <input asp-for="BookingRoom.CheckOut" class="form-control" />
+                <span asp-validation-for="BookingRoom.CheckOut" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -65,27 +65,27 @@
 
         <tr>
             <td>
-                @Model.RoomBooking.RoomID
+                @Model.BookingRoom.RoomID
             </td>
 
             <td>
-                @Model.RoomBooking.Level
+                @Model.BookingRoom.Level
             </td>
             <td>
-                @Model.RoomBooking.CheckIn.ToShortDateString()
+                @Model.BookingRoom.CheckIn.ToShortDateString()
             </td>
             <td>
-                @Model.RoomBooking.CheckOut.ToShortDateString()
+                @Model.BookingRoom.CheckOut.ToShortDateString()
             </td>
             <td>
-                @Model.RoomBooking.TotalCost
+                @Model.BookingRoom.TotalCost
             </td>
         </tr>
     </table>
 </div>
 }
 
-<!-- What i want to change is.... this is sooo inefficient way... i need to dynamic way to declare error message-->
+<!-- Let's try to find more dynamic way rather than this-->
 @if (ViewData["Fail"] != null)
 {
     <div>

@@ -15,7 +15,7 @@ using Microsoft.Data.Sqlite;
 
 namespace HotelWebApp.Pages.Bookings
 {
-    //[Authorize(Roles = "Customers")]
+    [Authorize(Roles = "Customers")]
     public class BookaRoomModel : PageModel
     {
         private readonly HotelWebApp.Data.ApplicationDbContext _context;
@@ -27,12 +27,13 @@ namespace HotelWebApp.Pages.Bookings
 
         public async Task<IActionResult> OnGetAsync()
         {
+            //ViewData["CustomerEmail"] = new SelectList(_context.Customer, "Email", "Email");
             ViewData["RoomID"] = new SelectList(_context.Room, "ID", "ID");
             return Page();
         }
 
         [BindProperty]
-        public MakeBooking RoomBooking { get; set; }
+        public MakeBooking BookingRoom { get; set; }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://aka.ms/RazorPagesCRUD.
@@ -40,98 +41,76 @@ namespace HotelWebApp.Pages.Bookings
         {
             ViewData["RoomID"] = new SelectList(_context.Room, "ID", "ID");
             
+            // Validation, when user tried to book invalid data, will return error message instead of success message.
             if (!ModelState.IsValid)
             {
                 return Page();
             }
-            else if (RoomBooking.CheckIn < DateTime.Today)
+            else if (BookingRoom.CheckIn < DateTime.Today)
             {
-                //ViewData["SuccessDB"] = "Check in Date Must be in the future";
                 ViewData["CheckInerr"] = "Check in Date Must be in the future";
-                ModelState.AddModelError("Booking.CheckIn", "Check in Date Must be in the future");
                 return Page();
             }
-            else if (RoomBooking.CheckIn > RoomBooking.CheckOut)
+            else if (BookingRoom.CheckIn > BookingRoom.CheckOut)
             {
-                //ViewData["SuccessDB"] = "Check Out Date Must after Check In Date";
-                ViewData["CheckOuterr"] = "Check Out Error Date Must be in the future";
-                ModelState.AddModelError("Booking.CheckOut", "Check Out Date Must after Check In Date");
+                ViewData["CheckOuterr"] = "Check Out Date Must be in the future";
                 return Page();
             } 
-            
 
-
+            // Current logged in User, Customer, will only book.
+            // So, can meet the requirmenet of "1 customer books 1 room"
             string _email = User.FindFirst(ClaimTypes.Name).Value;
 
             Booking Booking = new Booking
             {
                 TheCustomer = await _context.Customer.FirstOrDefaultAsync(m => m.Email == _email),
-                TheRoom = await _context.Room.FirstOrDefaultAsync(m => m.ID == RoomBooking.RoomID),
-                RoomID = RoomBooking.RoomID,
+                TheRoom = await _context.Room.FirstOrDefaultAsync(m => m.ID == BookingRoom.RoomID),
+                RoomID = BookingRoom.RoomID,
                 CustomerEmail = _email,
-                CheckIn = RoomBooking.CheckIn,
-                CheckOut = RoomBooking.CheckOut
-
-               
+                CheckIn = BookingRoom.CheckIn,
+                CheckOut = BookingRoom.CheckOut
             };
 
+            // Caculate Data of night.
             var lengthOfStay = (int)(Booking.CheckOut - Booking.CheckIn).TotalDays;
-            RoomBooking.TotalCost = lengthOfStay * Booking.TheRoom.Price;
-            Booking.Cost = RoomBooking.TotalCost;
+            BookingRoom.TotalCost = lengthOfStay * Booking.TheRoom.Price;
+            Booking.Cost = BookingRoom.TotalCost;
 
+            //Level requirement,
+            var theLevel = await _context.Room.FirstOrDefaultAsync(m => m.ID == BookingRoom.RoomID);
+            BookingRoom.Level = theLevel.Level;
 
-
-
-
-            //Level .... am i right????? or should i use this into Booking??{} 
-            var theLevel = await _context.Room.FirstOrDefaultAsync(m => m.ID == RoomBooking.RoomID);
-            RoomBooking.Level = theLevel.Level;
-
-
-            //raw sql
-            var roomID = new SqliteParameter("roomID", RoomBooking.RoomID);
-            var checkIn = new SqliteParameter("checkIn", RoomBooking.CheckIn);
-            var checkOut = new SqliteParameter("checkOut", RoomBooking.CheckOut);
-
-
-
-            String query = "SELECT [Room].* FROM Room " +
-                            "WHERE [Room].ID = @roomID ";
-
-            String subQuery = "(SELECT [Room].ID " +
+            var roomID = new SqliteParameter("roomID", BookingRoom.RoomID);
+            var cInDate = new SqliteParameter("cInDate", BookingRoom.CheckIn);
+            var cOutDate = new SqliteParameter("cOutDate", BookingRoom.CheckOut);
+            
+            var Query = _context.Room.FromSqlRaw("SELECT [Room].* FROM Room " +
+                            "WHERE [Room].ID = @roomID " +
+                            " AND [Room].ID NOT IN " +
+                            "(SELECT [Room].ID " +
                               "FROM [Room] " +
                               "INNER JOIN [Booking] " +
                               "ON [Room].ID = [Booking].RoomId " +
-                              "WHERE @checkIn < Booking.Checkout " +
-                              "AND Booking.CheckIn < @checkOut ) ";
-
-            String notQuery = query + " AND [Room].ID NOT IN " + subQuery;
+                              "WHERE @cInDate < Booking.Checkout " +
+                              "AND Booking.CheckIn < @cOutDate ) ", roomID, cInDate, cOutDate);
 
 
-            var searchQuery = _context.Room.FromSqlRaw(notQuery, roomID, checkIn, checkOut);
+            var succesQuerys = await Query.ToListAsync();
 
-            var thing = await searchQuery.ToListAsync();
-
-            //TODO FIX BULLSHIT OUTPUT
-            //If query result is one (we only want 1 result), store into DB
-            if (thing.Count == 1)
+            // The result is only 1, store into DB,
+            // If the result came out more than one, which means bookings are duplicated, means, someone already book,
+            // so, use else state to display error message.
+            if (succesQuerys.Count == 1)
             {
                 _context.Booking.Add(Booking);
                 await _context.SaveChangesAsync();
                 ViewData["SuccessDB"] = "success";
-                /*
-                ViewData["SuccessDB"] = $"Booked, {Booking.RoomID} on level {Booking.TheRoom.Level}" +
-                            $"from {Booking.CheckIn:d} to {Booking.CheckOut:d} for {Booking.Cost:C2} ";*/
             }
             else
             //If query result is more than one, (which means my query could be wrong or ..something worng), error mes display
             {
-                ViewData["Fail"] = "Booking not available, during your period, maybe someone already book, but I actually do not know from when to when....";
-                //ViewData["SuccessDB"] = "Booking not available";
+                ViewData["Fail"] = "During your period, Booking not available, This room is this period already taken";
             }
-
-
-
             return Page();
         }
     }

@@ -5,10 +5,6 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 <h1>SearchRooms</h1>
-<h4>The differences between Moviegoers in choosing movies</h4>
-<p>Specifically, this page allows you to find out the movies watched by Moviegoer A but not Moviegoer B.</p>
-
-
 <div class="row">
     <div class="col-md-6">
         @* by default, a method="post" form will be rendered. *@
@@ -17,7 +13,7 @@
             <div class="form-group">
                 <!--d-->
                 <label asp-for="RoomSearch.BedCount" class="control-label"></label>
-                <select asp-for="RoomSearch.BedCount" class="form-control" asp-items="ViewBag.BedCount">
+                <select asp-for="RoomSearch.BedCount" class="form-control" asp-items="ViewBag.BedCountList">
                 </select>
             </div>
 
